@@ -1,0 +1,53 @@
+services:
+  cms-postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: cmsdb
+      POSTGRES_USER: cms
+      POSTGRES_PASSWORD: cms1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - cms-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cms -d cmsdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cms-network
+
+  cms-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cms-postgres:5432/cmsdb
+      SPRING_DATASOURCE_USERNAME: cms
+      SPRING_DATASOURCE_PASSWORD: cms1234
+      JWT_SECRET: CmsJwtSecret20260601AlphaNumericOnly
+    ports:
+      - "8080:8080"
+    depends_on:
+      cms-postgres:
+        condition: service_healthy
+    networks:
+      - cms-network
+
+  cms-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - cms-backend
+    networks:
+      - cms-network
+
+volumes:
+  cms-postgres-data:
+
+networks:
+  cms-network:
+    driver: bridge

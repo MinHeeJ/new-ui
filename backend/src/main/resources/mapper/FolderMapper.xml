@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.folder.FolderMapper">
+    <select id="selectRootFolders" resultType="com.cms.folder.Folder">
+        SELECT * FROM cms_folder
+        WHERE parent_folder_code = '-1' AND active = true AND del_flag = false
+        ORDER BY sort ASC, created_at ASC
+    </select>
+
+    <select id="selectChildren" resultType="com.cms.folder.Folder">
+        SELECT * FROM cms_folder
+        WHERE parent_folder_code = #{folderCode} AND active = true AND del_flag = false
+        ORDER BY sort ASC, created_at ASC
+    </select>
+
+    <select id="selectByCode" resultType="com.cms.folder.Folder">
+        SELECT * FROM cms_folder
+        WHERE folder_code = #{folderCode} AND del_flag = false
+        LIMIT 1
+    </select>
+
+    <select id="selectNextSort" resultType="java.lang.Integer">
+        SELECT COALESCE(MAX(sort), 0) + 10 FROM cms_folder
+        WHERE parent_folder_code = #{parentFolderCode} AND del_flag = false
+    </select>
+
+    <select id="countActiveChildren" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM cms_folder
+        WHERE parent_folder_code = #{folderCode} AND active = true AND del_flag = false
+    </select>
+</mapper>

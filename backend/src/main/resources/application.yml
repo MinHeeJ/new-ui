@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cms-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://cms-postgres:5432/cmsdb}
+    username: ${SPRING_DATASOURCE_USERNAME:cms}
+    password: ${SPRING_DATASOURCE_PASSWORD:cms1234}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  jackson:
+    default-property-inclusion: non_null
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.cms
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: true
+      logic-not-delete-value: false
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: CmsJwtSecret20260601AlphaNumericOnly
+  expiration-ms: 86400000

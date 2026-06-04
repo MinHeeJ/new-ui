@@ -1,0 +1,36 @@
+{
+  "name": "cms-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "axios": "latest",
+    "highlight.js": "latest",
+    "lucide-react": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "latest",
+    "react-router-dom": "^6.28.0",
+    "rehype-highlight": "latest",
+    "rehype-raw": "latest",
+    "rehype-sanitize": "latest",
+    "remark-gfm": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "jsdom": "^29.1.1",
+    "typescript": "latest",
+    "vite": "^5.4.11",
+    "vitest": "^4.1.8"
+  }
+}
